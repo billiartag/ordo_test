@@ -38,6 +38,7 @@ dependencies:
   get: ^4.6.5
   iconly: ^1.0.1
   intl: ^0.18.1
+  dots_indicator: ^3.0.0
 
 dev_dependencies:
   flutter_test:
@@ -91,6 +92,8 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+  assets:
+    - assets/images/frame.png
   fonts:
     - family: Poppins
       fonts:
