@@ -22,7 +22,7 @@ class KPICard extends StatelessWidget {
     return Container(
       width: 140,
       margin: EdgeInsets.fromLTRB(
-        isFirst ? 12 : 4,
+        isFirst ? 26 : 4,
         5,
         isLast ? 12 : 4,
         5,

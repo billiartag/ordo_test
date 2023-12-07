@@ -11,6 +11,7 @@ import 'package:ordo_test/components/navbar.dart';
 import 'package:ordo_test/const/colors.dart';
 import 'package:ordo_test/const/text_style.dart';
 import 'package:ordo_test/screens/home/home_controller.dart';
+import 'package:syncfusion_flutter_charts/sparkcharts.dart';
 
 enum MenuItem { daily, weekly, monthly }
 
@@ -52,22 +53,30 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 actions: [
-                  const Icon(
-                    Icons.notifications,
-                    size: 24,
-                    color: OrdoColors.whiteColor,
+                  InkWell(
+                    onTap: () {},
+                    borderRadius: BorderRadius.circular(20),
+                    child: const Icon(
+                      Icons.notifications,
+                      size: 24,
+                      color: OrdoColors.whiteColor,
+                    ),
                   ),
                   const SizedBox(width: 12),
-                  CircleAvatar(
-                    radius: 15,
+                  InkWell(
+                    onTap: () {},
+                    borderRadius: BorderRadius.circular(20),
                     child: CircleAvatar(
-                      radius: 13,
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(100),
-                        child: Image.asset(
-                          homeController.profilePicture,
-                          height: 30,
-                          width: 30,
+                      radius: 15,
+                      child: CircleAvatar(
+                        radius: 13,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(100),
+                          child: Image.asset(
+                            homeController.profilePicture,
+                            height: 30,
+                            width: 30,
+                          ),
                         ),
                       ),
                     ),
@@ -166,9 +175,21 @@ class _HomeScreenState extends State<HomeScreen> {
                               ],
                             ),
                           ),
-                          const Text('aaa'),
+                          SfSparkAreaChart(
+                            axisLineColor: Colors.transparent,
+                            trackball: const SparkChartTrackball(
+                              activationMode: SparkChartActivationMode.tap,
+                            ),
+                            marker: const SparkChartMarker(
+                              displayMode: SparkChartMarkerDisplayMode.all,
+                              color: OrdoColors.whiteColor,
+                            ),
+                            labelDisplayMode: SparkChartLabelDisplayMode.none,
+                            color: OrdoColors.lightPurple100Color,
+                            data: const <double>[7, 9, 6, 7, 8, 10, 8, 3, 7],
+                          ),
                           const SizedBox(
-                            height: 300,
+                            height: 8,
                           ),
                           DotsIndicator(
                             dotsCount: 3,
