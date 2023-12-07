@@ -1,5 +1,6 @@
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 import 'package:ordo_test/components/button.dart';
@@ -7,9 +8,9 @@ import 'package:ordo_test/components/kpi_card.dart';
 import 'package:ordo_test/components/leaderboard_deals_card.dart';
 import 'package:ordo_test/components/leaderboard_recent_card.dart';
 import 'package:ordo_test/components/navbar.dart';
-import 'package:ordo_test/components/user_label.dart';
 import 'package:ordo_test/const/colors.dart';
 import 'package:ordo_test/const/text_style.dart';
+import 'package:ordo_test/screens/home/home_controller.dart';
 
 enum MenuItem { daily, weekly, monthly }
 
@@ -21,6 +22,8 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  late final HomeController homeController;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,12 +60,15 @@ class _HomeScreenState extends State<HomeScreen> {
                   const SizedBox(width: 12),
                   CircleAvatar(
                     radius: 15,
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(100),
-                      child: Image.asset(
-                        'images/frame.png',
-                        height: 30,
-                        width: 30,
+                    child: CircleAvatar(
+                      radius: 13,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(100),
+                        child: Image.asset(
+                          homeController.profilePicture,
+                          height: 30,
+                          width: 30,
+                        ),
                       ),
                     ),
                   ),
@@ -106,22 +112,23 @@ class _HomeScreenState extends State<HomeScreen> {
                                         locale: "id_ID",
                                         symbol: 'Rp ',
                                         decimalDigits: 0,
-                                      ).format(123456789),
+                                      ).format(homeController.totalRevenue),
                                       style: textHeadingSemiBold.copyWith(
                                         fontSize: 20,
                                         color: OrdoColors.whiteColor,
                                       ),
-                                    ),
+                                    )
                                   ],
                                 ),
-                                PopupMenuButton(
+                                PopupMenuButton<MenuItem>(
                                   icon: const Icon(
                                     Icons.more_horiz,
                                     size: 24,
                                     color: OrdoColors.whiteColor,
                                   ),
-                                  initialValue: MenuItem.daily,
-                                  onSelected: (value) {},
+                                  onSelected: (value) {
+                                    homeController.setSelectedGraph(value);
+                                  },
                                   itemBuilder: (BuildContext context) =>
                                       <PopupMenuEntry<MenuItem>>[
                                     PopupMenuItem<MenuItem>(
@@ -163,7 +170,19 @@ class _HomeScreenState extends State<HomeScreen> {
                           const SizedBox(
                             height: 300,
                           ),
-                          const Text('aaa'),
+                          DotsIndicator(
+                            dotsCount: 3,
+                            position: 1,
+                            decorator: DotsDecorator(
+                              color: OrdoColors.whiteColor.withOpacity(0.3),
+                              activeColor: OrdoColors.whiteColor,
+                              shape: const RoundedRectangleBorder(),
+                              activeShape: const RoundedRectangleBorder(),
+                              size: const Size(20, 4),
+                              activeSize: const Size(20, 4),
+                            ),
+                          ),
+                          const SizedBox(height: 12),
                         ],
                       ),
                     ),
@@ -228,47 +247,25 @@ class _HomeScreenState extends State<HomeScreen> {
                     SizedBox(
                       height: 110,
                       child: ListView(
+                        controller: homeController.kpiScrollController,
                         physics: const ClampingScrollPhysics(),
                         shrinkWrap: true,
                         scrollDirection: Axis.horizontal,
-                        children: [
-                          const SizedBox(width: 20),
-                          KPICard(
-                            value: 123,
-                            percentage: -10,
-                            type: KPIType.totalLead,
-                            onTap: () {},
-                          ),
-                          const SizedBox(width: 12),
-                          KPICard(
-                            value: 123,
-                            percentage: 10,
-                            type: KPIType.hotLead,
-                            onTap: () {},
-                          ),
-                          const SizedBox(width: 12),
-                          KPICard(
-                            value: 123,
-                            percentage: 10,
-                            type: KPIType.coldLead,
-                            onTap: () {},
-                          ),
-                          const SizedBox(width: 12),
-                          KPICard(
-                            value: 123,
-                            percentage: 10,
-                            type: KPIType.grandOpening,
-                            onTap: () {},
-                          ),
-                          const SizedBox(width: 12),
-                          KPICard(
-                            value: 123,
-                            percentage: 10,
-                            type: KPIType.failedDeal,
-                            onTap: () {},
-                          ),
-                          const SizedBox(width: 20),
-                        ],
+                        children: List.generate(
+                          homeController.dataKpi.length,
+                          (index) {
+                            return Padding(
+                              padding: const EdgeInsets.only(right: 12),
+                              child: KPICard(
+                                isFirst: index == 0,
+                                isLast:
+                                    index == homeController.dataKpi.length - 1,
+                                data: homeController.dataKpi[index],
+                                onTap: () {},
+                              ),
+                            );
+                          },
+                        ),
                       ),
                     ),
                   ],
@@ -277,11 +274,18 @@ class _HomeScreenState extends State<HomeScreen> {
               SliverList(
                 delegate: SliverChildListDelegate(
                   [
-                    DotsIndicator(
-                      dotsCount: 3,
-                      position: 1,
-                      decorator: DotsDecorator(
-                        shape: Border(),
+                    Obx(
+                      () => DotsIndicator(
+                        dotsCount: (homeController.dataKpi.length / 2).round(),
+                        position: homeController.scrollPosition.value,
+                        decorator: const DotsDecorator(
+                          color: OrdoColors.gray2Color,
+                          activeColor: OrdoColors.lightPurpleColor,
+                          shape: RoundedRectangleBorder(),
+                          activeShape: RoundedRectangleBorder(),
+                          size: Size(20, 2),
+                          activeSize: Size(20, 2),
+                        ),
                       ),
                     ),
                     const SizedBox(height: 28),
@@ -296,35 +300,31 @@ class _HomeScreenState extends State<HomeScreen> {
                               fontSize: 13,
                             ),
                           ),
-                          const ArrowButton(),
+                          ArrowButton(onTap: () {}),
                         ],
                       ),
                     ),
                     const SizedBox(height: 16),
-                    LeaderboardRecentCard(
-                      name: 'Lorem Ipsum',
-                      date: DateTime.now(),
-                      type: UserLabelType.newLead,
-                      value: 1500000,
-                      onTap: () {},
-                    ),
-                    const SizedBox(height: 8),
-                    LeaderboardRecentCard(
-                      name: 'Ipsum Ipsum',
-                      date: DateTime.now(),
-                      type: UserLabelType.deals,
-                      value: 3500000,
-                      onTap: () {},
-                    ),
-                    const SizedBox(height: 8),
-                    LeaderboardRecentCard(
-                      name: 'Lorem Lorem',
-                      date: DateTime.now(),
-                      type: UserLabelType.hotLead,
-                      value: 1250000,
-                      onTap: () {},
-                    ),
                   ],
+                ),
+              ),
+              SliverList(
+                delegate: SliverChildListDelegate(
+                  List.generate(
+                    3,
+                    (index) => Padding(
+                      padding: const EdgeInsets.only(bottom: 8),
+                      child: LeaderboardRecentCard(
+                        name: homeController.dataLeadRecent[index].name,
+                        subtitle: homeController.dataLeadRecent[index].subtitle,
+                        date: homeController.dataLeadRecent[index].date,
+                        profile: homeController.dataLeadRecent[index].profile,
+                        type: homeController.dataLeadRecent[index].type,
+                        value: homeController.dataLeadRecent[index].value,
+                        onTap: () {},
+                      ),
+                    ),
+                  ),
                 ),
               ),
               SliverList(
@@ -342,52 +342,31 @@ class _HomeScreenState extends State<HomeScreen> {
                               fontSize: 13,
                             ),
                           ),
-                          const ArrowButton(),
+                          ArrowButton(onTap: () {}),
                         ],
                       ),
                     ),
                     const SizedBox(height: 16),
-                    LeaderboardDealsCard(
-                      queue: 1,
-                      name: 'Lorem Ipsum',
-                      date: DateTime.now(),
-                      value: 1500000,
-                      onTap: () {},
-                    ),
-                    const SizedBox(height: 8),
-                    LeaderboardDealsCard(
-                      queue: 2,
-                      name: 'Lorem Ipsum',
-                      date: DateTime.now(),
-                      value: 1500000,
-                      onTap: () {},
-                    ),
-                    const SizedBox(height: 8),
-                    LeaderboardDealsCard(
-                      queue: 3,
-                      name: 'Lorem Ipsum',
-                      date: DateTime.now(),
-                      value: 1500000,
-                      onTap: () {},
-                    ),
-                    const SizedBox(height: 8),
-                    LeaderboardDealsCard(
-                      queue: 4,
-                      name: 'Lorem Ipsum',
-                      date: DateTime.now(),
-                      value: 1500000,
-                      onTap: () {},
-                    ),
-                    const SizedBox(height: 8),
-                    LeaderboardDealsCard(
-                      queue: 5,
-                      name: 'Lorem Ipsum',
-                      date: DateTime.now(),
-                      value: 1500000,
-                      onTap: () {},
-                    ),
-                    const SizedBox(height: 8),
                   ],
+                ),
+              ),
+              SliverList(
+                delegate: SliverChildListDelegate(
+                  List.generate(
+                    homeController.dataLeadRecent.length,
+                    (index) => Padding(
+                      padding: const EdgeInsets.only(bottom: 8),
+                      child: LeaderboardDealsCard(
+                        name: homeController.dataLeadRecent[index].name,
+                        date: homeController.dataLeadRecent[index].date ??
+                            DateTime.now(),
+                        profile: homeController.dataLeadRecent[index].profile,
+                        value: homeController.dataLeadRecent[index].deals,
+                        queue: index + 1,
+                        onTap: () {},
+                      ),
+                    ),
+                  ),
                 ),
               ),
             ],
@@ -401,5 +380,9 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     initializeDateFormatting();
+    homeController = Get.put(HomeController());
+    homeController.kpiScrollController.addListener(() {
+      homeController.setScrollPosition();
+    });
   }
 }

@@ -1,84 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:ordo_test/const/colors.dart';
 import 'package:ordo_test/const/text_style.dart';
-
-enum KPIType {
-  totalLead(
-    title: 'Total Lead',
-    icon: Icon(
-      Icons.storefront_rounded,
-      size: 11,
-      color: OrdoColors.whiteColor,
-    ),
-    color: OrdoColors.lightPurple100Color,
-  ),
-  hotLead(
-    title: 'Hot Lead',
-    icon: Icon(
-      Icons.local_fire_department_rounded,
-      size: 11,
-      color: OrdoColors.whiteColor,
-    ),
-    color: OrdoColors.lightRedColor,
-  ),
-  totalDeal(
-    title: 'Total Deal',
-    icon: Icon(
-      Icons.check,
-      size: 11,
-      color: OrdoColors.whiteColor,
-    ),
-    color: OrdoColors.green1Color,
-  ),
-  grandOpening(
-    title: 'Grand Opening',
-    icon: Icon(
-      Icons.navigation_sharp,
-      size: 11,
-      color: OrdoColors.whiteColor,
-    ),
-    color: OrdoColors.green2Color,
-  ),
-  coldLead(
-    title: 'Cold Lead',
-    icon: Icon(
-      Icons.ac_unit,
-      size: 11,
-      color: OrdoColors.whiteColor,
-    ),
-    color: OrdoColors.lightPurple100Color,
-  ),
-  failedDeal(
-    title: 'Failed Deal',
-    icon: Icon(
-      Icons.clear,
-      size: 11,
-      color: OrdoColors.whiteColor,
-    ),
-    color: OrdoColors.lightPurple100Color,
-  ),
-  ;
-
-  final String title;
-  final Widget icon;
-  final Color color;
-  const KPIType({
-    required this.title,
-    required this.icon,
-    required this.color,
-  });
-}
+import 'package:ordo_test/model/data.dart';
 
 class KPICard extends StatelessWidget {
-  final int value;
-  final double percentage;
-  final KPIType type;
+  final KPIData data;
+  final bool isFirst;
+  final bool isLast;
   final VoidCallback? onTap;
 
   const KPICard({
-    required this.value,
-    required this.percentage,
-    required this.type,
+    required this.data,
+    this.isFirst = false,
+    this.isLast = false,
     this.onTap,
     super.key,
   });
@@ -87,7 +21,12 @@ class KPICard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: 140,
-      margin: const EdgeInsets.symmetric(vertical: 5),
+      margin: EdgeInsets.fromLTRB(
+        isFirst ? 12 : 4,
+        5,
+        isLast ? 12 : 4,
+        5,
+      ),
       decoration: BoxDecoration(
         color: OrdoColors.whiteColor,
         borderRadius: BorderRadius.circular(12),
@@ -119,14 +58,14 @@ class KPICard extends StatelessWidget {
                       height: 20,
                       width: 20,
                       decoration: BoxDecoration(
-                        color: type.color,
+                        color: data.type.color,
                         shape: BoxShape.circle,
                       ),
-                      child: type.icon,
+                      child: data.type.icon,
                     ),
                     const SizedBox(width: 8),
                     Text(
-                      type.title,
+                      data.type.title,
                       style: textVerySmallMedium.copyWith(
                         fontWeight: FontWeight.w400,
                       ),
@@ -135,7 +74,7 @@ class KPICard extends StatelessWidget {
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  value.toString(),
+                  data.value.toString(),
                   style: textLargeSemiBold.copyWith(
                     fontSize: 27,
                   ),
@@ -151,10 +90,10 @@ class KPICard extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      '${percentage.isNegative ? '' : '+'}$percentage%',
+                      '${data.percentage.isNegative ? '' : '+'}${data.percentage}%',
                       style: textMediumMedium.copyWith(
                         fontSize: 9,
-                        color: percentage.isNegative
+                        color: data.percentage.isNegative
                             ? OrdoColors.redColor
                             : OrdoColors.blackColor,
                       ),

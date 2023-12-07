@@ -181,24 +181,22 @@ class UserLabel extends StatelessWidget {
         border: Border.all(color: type.color),
         borderRadius: BorderRadius.circular(20),
       ),
-      child: Expanded(
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            type.icon ?? const SizedBox(),
-            const SizedBox(
-              width: 8,
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          type.icon ?? const SizedBox(),
+          const SizedBox(
+            width: 8,
+          ),
+          Text(
+            type.label,
+            style: textSmallMedium.copyWith(
+              color: OrdoColors.whiteColor,
             ),
-            Text(
-              type.label,
-              style: textSmallMedium.copyWith(
-                color: OrdoColors.whiteColor,
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

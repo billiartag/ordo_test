@@ -46,15 +46,16 @@ class LeaderboardDealsCard extends StatelessWidget {
                       crossAxisAlignment: WrapCrossAlignment.center,
                       children: [
                         Container(
-                          padding: const EdgeInsets.symmetric(
-                            vertical: 10,
-                            horizontal: 18,
-                          ),
-                          child: Text(
-                            queue.toString(),
-                            style: textBigSemiBold.copyWith(
-                              fontSize: 22,
-                              color: OrdoColors.darkPurpleColor,
+                          padding: const EdgeInsets.fromLTRB(0, 10, 8, 10),
+                          child: SizedBox(
+                            width: 25,
+                            child: Text(
+                              queue.toString(),
+                              textAlign: TextAlign.center,
+                              style: textBigSemiBold.copyWith(
+                                fontSize: 22,
+                                color: OrdoColors.darkPurpleColor,
+                              ),
                             ),
                           ),
                         ),
@@ -78,12 +79,14 @@ class LeaderboardDealsCard extends StatelessWidget {
                             children: [
                               Text(
                                 name,
+                                maxLines: 1,
                                 style: textMedium,
                                 overflow: TextOverflow.clip,
                               ),
                               const SizedBox(height: 2),
                               Text(
                                 DateFormat('dd MMMM yyyy', 'id').format(date),
+                                maxLines: 1,
                                 overflow: TextOverflow.clip,
                                 style: textSmallRegular.copyWith(
                                   color: OrdoColors.gray2Color,
