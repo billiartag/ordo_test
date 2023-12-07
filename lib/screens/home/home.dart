@@ -179,14 +179,27 @@ class _HomeScreenState extends State<HomeScreen> {
                             axisLineColor: Colors.transparent,
                             trackball: const SparkChartTrackball(
                               activationMode: SparkChartActivationMode.tap,
+                              color: OrdoColors.whiteColor,
                             ),
                             marker: const SparkChartMarker(
                               displayMode: SparkChartMarkerDisplayMode.all,
                               color: OrdoColors.whiteColor,
+                              borderColor: OrdoColors.whiteColor,
                             ),
+                            borderColor: OrdoColors.whiteColor,
                             labelDisplayMode: SparkChartLabelDisplayMode.none,
                             color: OrdoColors.lightPurple100Color,
-                            data: const <double>[7, 9, 6, 7, 8, 10, 8, 3, 7],
+                            data: const <double>[
+                              7000,
+                              9000,
+                              6000,
+                              7000,
+                              8000,
+                              10000,
+                              8000,
+                              3000,
+                              7000
+                            ],
                           ),
                           const SizedBox(
                             height: 8,

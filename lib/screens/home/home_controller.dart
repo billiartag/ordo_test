@@ -9,7 +9,7 @@ class HomeController extends GetxController {
   int totalRevenue = 2550000;
   RxInt scrollPosition = 0.obs;
 
-  final String profilePicture = 'images/frame.png';
+  final String profilePicture = 'assets/images/frame.png';
 
   final Rx<MenuItem> selectedGraph = MenuItem.daily.obs;
 

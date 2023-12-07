@@ -53,7 +53,7 @@ class LeaderboardRecentCard extends StatelessWidget {
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(8),
                         child: Image.asset(
-                          'images/frame.png',
+                          'assets/images/frame.png',
                           height: 49,
                           width: 49,
                         ),
