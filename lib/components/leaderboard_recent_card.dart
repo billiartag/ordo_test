@@ -80,6 +80,7 @@ class LeaderboardRecentCard extends StatelessWidget {
                                 const Icon(
                                   Icons.message,
                                   size: 12,
+                                  color: OrdoColors.gray2Color,
                                 ),
                                 const SizedBox(width: 4),
                                 Text(
@@ -99,6 +100,7 @@ class LeaderboardRecentCard extends StatelessWidget {
                                 const Icon(
                                   Icons.calendar_today_outlined,
                                   size: 12,
+                                  color: OrdoColors.gray2Color,
                                 ),
                                 const SizedBox(width: 4),
                                 Text(

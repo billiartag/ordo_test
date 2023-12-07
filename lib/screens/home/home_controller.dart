@@ -15,28 +15,28 @@ class HomeController extends GetxController {
 
   final List<KPIData> dataKpi = [
     KPIData(
-      value: 123,
+      value: 12,
       percentage: -10,
       type: KPIType.totalLead,
     ),
     KPIData(
-      value: 123,
-      percentage: 10,
+      value: 30,
+      percentage: 15,
       type: KPIType.hotLead,
     ),
     KPIData(
-      value: 123,
-      percentage: 10,
+      value: 5,
+      percentage: 50,
       type: KPIType.coldLead,
     ),
     KPIData(
-      value: 123,
-      percentage: 10,
+      value: 100,
+      percentage: 25,
       type: KPIType.grandOpening,
     ),
     KPIData(
-      value: 123,
-      percentage: 10,
+      value: 5,
+      percentage: -50,
       type: KPIType.failedDeal,
     ),
   ];
@@ -85,28 +85,28 @@ class HomeController extends GetxController {
       deals: 23,
     ),
     LeaderboardRecentData(
-      name: 'Possum Possum?',
+      name: 'Assum Possum',
       date: DateTime.now(),
       type: UserLabelType.hotLead,
       value: 225000,
       deals: 12,
     ),
     LeaderboardRecentData(
-      name: 'Possum Possum?',
+      name: 'Basa Asam',
       date: DateTime.now(),
       type: UserLabelType.hotLead,
       value: 3125000,
       deals: 20,
     ),
     LeaderboardRecentData(
-      name: 'Possum Possum?',
+      name: 'Asam Basa?',
       date: DateTime.now(),
       type: UserLabelType.hotLead,
       value: 1525000,
       deals: 15,
     ),
     LeaderboardRecentData(
-      name: 'Possum Possum?',
+      name: 'Basah Kering',
       date: DateTime.now(),
       type: UserLabelType.hotLead,
       value: 6025000,

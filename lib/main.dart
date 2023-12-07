@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:ordo_test/const/colors.dart';
 import 'package:ordo_test/screens/home/home.dart';
 
 void main() {
@@ -12,6 +14,10 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+      statusBarColor: OrdoColors
+          .lightPurpleMainColor, //or set color with: Color(0xFF0000FF)
+    ));
     return GetMaterialApp(
       title: 'ORDO Flutter Test',
       theme: ThemeData(

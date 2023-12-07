@@ -43,6 +43,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 automaticallyImplyLeading: false,
                 backgroundColor: OrdoColors.lightPurpleMainColor,
                 flexibleSpace: FlexibleSpaceBar(
+                  background: Container(
+                    color: OrdoColors.lightPurpleMainColor,
+                  ),
                   centerTitle: true,
                   title: Text(
                     'Dashboard',
@@ -188,7 +191,8 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                             borderColor: OrdoColors.whiteColor,
                             labelDisplayMode: SparkChartLabelDisplayMode.none,
-                            color: OrdoColors.lightPurple100Color,
+                            color: OrdoColors.lightPurpleColor,
+                            labelStyle: textMedium.copyWith(fontSize: 14),
                             data: const <double>[
                               7000,
                               9000,
@@ -232,8 +236,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   decoration: const BoxDecoration(
                     color: OrdoColors.whiteColor,
                     borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(36),
-                      topRight: Radius.circular(36),
+                      topLeft: Radius.circular(28),
+                      topRight: Radius.circular(28),
                     ),
                     boxShadow: [
                       BoxShadow(
@@ -308,17 +312,23 @@ class _HomeScreenState extends State<HomeScreen> {
               SliverList(
                 delegate: SliverChildListDelegate(
                   [
+                    const SizedBox(height: 12),
                     Obx(
-                      () => DotsIndicator(
-                        dotsCount: (homeController.dataKpi.length / 2).round(),
-                        position: homeController.scrollPosition.value,
-                        decorator: const DotsDecorator(
-                          color: OrdoColors.gray2Color,
-                          activeColor: OrdoColors.lightPurpleColor,
-                          shape: RoundedRectangleBorder(),
-                          activeShape: RoundedRectangleBorder(),
-                          size: Size(20, 2),
-                          activeSize: Size(20, 2),
+                      () => Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 30),
+                        child: DotsIndicator(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          dotsCount:
+                              (homeController.dataKpi.length / 2).round(),
+                          position: homeController.scrollPosition.value,
+                          decorator: const DotsDecorator(
+                            color: OrdoColors.gray1Color,
+                            activeColor: OrdoColors.lightPurpleColor,
+                            shape: RoundedRectangleBorder(),
+                            activeShape: RoundedRectangleBorder(),
+                            size: Size(30, 2),
+                            activeSize: Size(30, 2),
+                          ),
                         ),
                       ),
                     ),
@@ -326,6 +336,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20),
                       child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
@@ -368,6 +379,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20),
                       child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(

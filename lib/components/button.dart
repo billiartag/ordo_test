@@ -21,7 +21,7 @@ class ArrowButton extends StatelessWidget {
         ),
         child: const Icon(
           Icons.keyboard_arrow_right,
-          size: 16,
+          size: 18,
           color: OrdoColors.darkPurpleColor,
         ),
       ),
